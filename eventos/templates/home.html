@@ -1,9 +1,27 @@
 {% extends "layout/base.html" %}
 {% block content %} 
-    <h1>Eventos</h1>
+<div class="container mt-5 text-center">
+    <h1>{{ title }}</h1>
 
-    <p>
-        Bienvenido a la aplicación de eventos. Aquí podrás gestionar tus eventos de manera sencilla y eficiente.
-        Puedes crear, editar y eliminar eventos, así como ver una lista de todos tus eventos programados.
-    </p>
+</div>
+
+<!-- <ul>
+    {% for row in listado %}
+        <li>
+            {{ row.nombre }} - {{ row.description }}
+        </li>
+    {% endfor %}
+</ul> -->
+
+<div class="card">
+    <div class="card-header">
+        Featured
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+
 {% endblock %}
