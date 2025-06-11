@@ -4,3 +4,10 @@ from.models import evento
 # Register your models here.
 
 admin.site.register(evento)
+
+
+
+
+
+
+

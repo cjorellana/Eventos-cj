@@ -1,27 +1,63 @@
 {% extends "layout/base.html" %}
 {% block content %} 
-<div class="container mt-5 text-center">
+{% load static %}
+
+
+
+<div class="container my-5 text-center">
     <h1>{{ title }}</h1>
-
 </div>
 
-<!-- <ul>
-    {% for row in listado %}
-        <li>
-            {{ row.nombre }} - {{ row.description }}
-        </li>
-    {% endfor %}
-</ul> -->
+<div class="container mt-3 ">
+    <div class="row g-3">
+        {% for row in listado %}
+        <div class="col-12 col-md-6 d-flex justify-content-center ">
+            <div class="card w-100 shadow p-3 mb-3 bg-body-tertiary border border-success-subtle rounded">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-4">
+                        <a href="{% url 'detalle' row.id %}" class="nav-link active" aria-current="page">
+                            <h3 class="card-title text-center mb-3">{{ row.nombre }}</h3>
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center mb-4">
 
-<div class="card">
-    <div class="card-header">
-        Featured
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        {% if row.image %}
+                        <img class="w-75" src="{{ row.image.url }}" />
+                        {% else %}
+                        <img src="{% static 'img/descargar.jpg' %}" />
+                        {% endif %}
+
+                    </div>
+                        
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text">Inicia: {{row.fecha_Inicio|date:"d/m/Y"}}</p>
+                        <p class="card-text">Finaliza: {{row.fecha_fin|date:"d/m/Y"}}</p>
+                    </div>
+                    <div class="d-flex card-text">
+                        <p>Ultimo dia para asignarse</p>
+                        <p class="fw-bold">: {{row.fecha_fin_asig}}</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center gap-2 text-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card"
+                            viewBox="0 0 16 16">
+                            <path
+                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
+                            <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />        </svg>
+                            <p class="card-text">Q.{{row.precio}}</p>
+                        </div>
+                        <div class="text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
+                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0"/>
+                            </svg>
+                            <a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Agregar al carrito</a>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-
 {% endblock %}
