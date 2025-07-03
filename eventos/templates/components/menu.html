@@ -17,6 +17,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'about' %}">About</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'nuevo' %}">Agregar Evento</a>
+        </li>
       </ul>
       <form class="d-flex" role="search" action = "{% url 'buscar' %}" method="post">
         {% csrf_token %}

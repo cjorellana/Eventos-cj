@@ -1,0 +1,143 @@
+{% extends "layout/base.html" %}
+{% block content %} 
+{% include "components/_alert.html" %}
+
+<div class="card container mx-auto shadow-lg">
+    <div class="card-header text-center mt-2 mb-5">
+        <h1 class="text-primary">Configuracion Evento</h1>
+    </div>
+    <div class="card-body">
+        <form x-data="formularioNuevoEvento()"
+              method="post"
+              action="{% url 'nuevo' %}"
+              enctype="multipart/form-data"
+              @submit.prevent="!validar() || $el.submit()">
+            {% csrf_token %}
+            
+                <div class="d-flex justify-content-around gap-3 mb-3">
+                    <div class="flex-fill mx-3">
+                        <label for="nombre" class="form-label">Nombre del evento</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del evento"name="nombre"
+                               x-model="nombre"
+                               :class="{'is-invalid': errorN, 'is-valid': !errorN && nombre.trim() !== ''}">
+                    </div>
+                    <div class="flex-fill mx-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control"id="precio" placeholder="Ingrese el precio del evento" name="precio"
+                               x-model="precio"
+                               :class="{'is-invalid': errorP, 'is-valid': !errorP && precio > 0}">
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-around gap-3 mb-3">
+                    <div class="flex-fill mx-3">
+                        <label for="fecha_inicio" class="form-label">Fecha inicio</label>
+                        <input type="date" class="form-control"
+                               id="fecha_inicio"
+                               name="fecha_inicio"
+                               x-model="fecha_inicio"
+                               :class="{'is-invalid': errorFI, 'is-valid': !errorFI && fecha_inicio !== ''}">
+                    </div>
+                    <div class="flex-fill mx-3">
+                        <label for="fecha_fin" class="form-label">Fecha fin</label>
+                        <input type="date" class="form-control"
+                               id="fecha_fin"
+                               name="fecha_fin"
+                               x-model="fecha_fin"
+                               :class="{'is-invalid': errorFF, 'is-valid': !errorFF && fecha_fin !== ''}">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around gap-3 mb-3">
+                    <div class="flex-fill mx-3">
+                        <label for="fecha_asignacion" class="form-label">Inicio de asignación</label>
+                        <input type="date" class="form-control"
+                               id="fecha_asignacion"
+                               name="fecha_asignacion"
+                               x-model="fecha_asignacion"
+                               :class="{'is-invalid': errorFA, 'is-valid': !errorFA && fecha_asignacion !== ''}">
+                    </div>
+                    <div class="flex-fill mx-3">
+                        <label for="fecha_fin_de_asignacion" class="form-label">Fin de asignación</label>
+                        <input type="date" class="form-control"
+                               id="fecha_fin_de_asignacion"
+                               name="fecha_fin_de_asignacion"
+                               x-model="fecha_fin_de_asignacion"
+                               :class="{'is-invalid': errorFFA, 'is-valid': !errorFFA && fecha_fin_de_asignacion !== ''}">
+                    </div>
+                </div>
+                <div class="container mx-1 mt-3">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="activo" value="True">
+                    <label class="form-check-label" for="gridCheck">
+                        Activo
+                    </label>
+                </div>
+            
+                
+                <div class="container mx-1 mt-3">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="diploma" value="True">
+                    <label class="form-check-label" for="gridCheck">
+                        Diploma
+                    </label>
+                </div>
+                <div class="container mx-1 mt-3">
+                    <div>
+                        <label for="exampleFormControlTextarea1" class="form-label mt-3">Imagen</label>
+                        <input type="file" class="form-control" id="exampleFormControlTextarea1" name="imagen">
+                    </div>
+ 
+                    <label for="exampleFormControlTextarea1" class="form-label mt-3">Descripcion</label>
+                    <textarea class="form-control"
+                              id="exampleFormControlTextarea1"
+                              rows="3"
+                              name="descripcion"
+                              x-model="descripcion"
+                              :class="{'is-invalid': errorD, 'is-valid': !errorD && descripcion.trim() !== ''}"></textarea>
+
+                    <div>
+                        <input type="submit" class="btn btn-primary mt-3 mx-3 py-2 px-5 " value="Guardar"></input>
+                        <a href="{% url 'nuevo' %}" class="btn btn-danger mt-3 py-2 px-5">Cancelar</a>
+                    </div>
+                </div>
+                
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function formularioNuevoEvento() {
+        return {
+            nombre: '',
+            precio: '',
+            fecha_inicio: '',
+            fecha_fin: '',
+            fecha_asignacion: '',
+            fecha_fin_de_asignacion: '',
+            activo: false,
+            diploma: false,
+            descripcion: '',
+
+            // Inicializa los errores
+            errorN: false,
+            errorP: false,
+            errorFI: false,
+            errorFF: false,
+            errorFA: false,
+            errorFFA: false,
+            errorD: false,
+
+            validar() {
+                this.errorN = this.nombre.trim() === '';
+                this.errorP = this.precio <= 0;
+                this.errorFI = this.fecha_inicio === '';
+                this.errorFF = this.fecha_fin === '';
+                this.errorFA = this.fecha_asignacion === '';
+                this.errorFFA = this.fecha_fin_de_asignacion === '';
+                this.errorD = this.descripcion.trim() === '';
+                return !(this.errorN || this.errorP || this.errorFI || this.errorFF || this.errorFA || this.errorFFA || this.errorD);
+            }
+        };
+    }
+</script>
+
+{% endblock %}

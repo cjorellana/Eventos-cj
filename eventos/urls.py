@@ -10,5 +10,11 @@ urlpatterns = [ # URL patterns de la aplicación eventos
     path('detalle/<int:id>', views.detalle, name='detalle'), # Detalle de un evento en particular 
     path('about/', views.about, name='about'),
     path('buscar/', views.buscar, name='buscar'),
-    path('contacto/', views.Contacto, name='contacto'),                 
+    path('contacto/', views.Contacto, name='contacto'), 
+    path('contacto2/', views.contacto2, name='contacto2'), 
+    path('contacto3/', views.contacto3, name='contacto3'),    
+    path('nuevo/', views.nuevo, name='nuevo'),                 
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

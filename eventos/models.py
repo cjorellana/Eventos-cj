@@ -32,3 +32,6 @@ class contacto(models.Model):
     tipo = models.IntegerField(choices=tipo_contacto)
     mensaje = models.TextField()
     crweated_at = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+       return self.nombre_persona

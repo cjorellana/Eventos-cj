@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from .forms import contactoForm
 from .models import evento, contacto
+from django.contrib import messages
+from datetime import date
+
 # Create your views here.
 
 def home(request):
@@ -55,8 +58,84 @@ def Contacto(request):
         email_form = request.POST.get('email', '')
         mensaje_form = request.POST.get('mensaje', '')
 
-        nuevo_contacto = contacto(nombre_persona=nombre_form, correo=email_form, mensaje=mensaje_form, tipo=1)  # Asignando un tipo por defecto
-        nuevo_contacto.save()
+        if not nombre_form or not email_form or not mensaje_form:
+            messages.error(request, 'Todos los campos son obligatorios.')
+        else:
+            # Validar el formato del correo electrónico
+            try:
+                nuevo_contacto = contacto(nombre_persona=nombre_form, correo=email_form, mensaje=mensaje_form, tipo=1)  # Asignando un tipo por defecto
+                nuevo_contacto.save()
+                messages.success(request, 'Contacto guardado correctamente.')
+            except Exception as e:
+                messages.error(request, f'Error al guardar el contacto: {e}')
+
     return render(request, 'contacto.html')
 
 
+def contacto2(request):
+    if request.method == 'POST':
+        nombre_form = request.POST.get('nombre', '')
+        email_form = request.POST.get('email', '')
+        mensaje_form = request.POST.get('mensaje', '')
+
+        if not nombre_form or not email_form or not mensaje_form:
+            messages.error(request, 'Todos los campos son obligatorios.')
+        else:
+            # Validar el formato del correo electrónico
+            try:
+                nuevo_contacto = contacto(nombre_persona=nombre_form, correo=email_form, mensaje=mensaje_form, tipo=1)  # Asignando un tipo por defecto
+                nuevo_contacto.save()
+                messages.success(request, 'Contacto guardado correctamente.')
+            except Exception as e:
+                messages.error(request, f'Error al guardar el contacto: {e}')
+
+    return render(request, 'contacto2.html')
+
+def contacto3(request):
+    data = {
+        'form': contactoForm(),
+    }
+       #metodo
+    if request.method == 'POST':
+        formulario= contactoForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request,'Soporte Enviado Correctamente. ')
+        else:
+            messages.error(request,'Error al enviar el formulario')
+            data['form']=formulario
+    return render(request, 'contacto3.html', data)
+
+
+def nuevo(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre', '')
+        precio = request.POST.get('precio', '')
+        fecha_inicio = request.POST.get('fecha_inicio', '')
+        fecha_fin = request.POST.get('fecha_fin', '')
+        fecha_Asig = request.POST.get('fecha_asignacion', '')
+        fecha_fin_asig = request.POST.get('fecha_fin_de_asignacion', '')
+        activo = request.POST.get('activo') == 'True'
+        diploma = request.POST.get('diploma') == 'True'
+        description = request.POST.get('descripcion', '')
+        imagen = request.FILES.get('imagen', None)
+
+        try:
+            nuevo_evento = evento(
+                nombre=nombre,
+                precio=precio,
+                description=description,
+                fecha_Inicio=fecha_inicio,
+                fecha_fin=fecha_fin,
+                fecha_Asig=fecha_Asig,
+                fecha_fin_asig=fecha_fin_asig,
+                activo=activo,
+                diploma=diploma,
+                image=imagen 
+            )
+            nuevo_evento.save()
+            messages.success(request, 'Evento creado correctamente.')
+            return redirect('nuevo')
+        except Exception as e:
+            messages.error(request, f'Error al crear el evento: {e}')
+    return render(request, 'nuevo.html')

@@ -1,27 +1,43 @@
 {% extends "layout/base.html" %}
 {% block content %} 
+
+{% include "components/_alert.html" %}
+
 <div class=" card container mx-auto my-5 shadow-lg">
-    <div class="card-body">
+    <div class="card-body" x-data="{
+        nombre:'',
+        error: false,
+        validar() {
+            this.error = this.nombre.trim() == '';
+            return !this.error;
+        }
+     }">
         <div class="text-center ">
             <h3 >Formulario contacto</h3>
         </div>
-        <form method="post">
+        <form method="post" action="{% url 'contacto' %}" @submit.prevent="!validar() || $el.submit()">
             {% csrf_token %}
             <div class="form-floating my-3">
-                <input type="text" class="form-control" id="floatingInput" name="nombre">
-                <label for="floatingInput" required>Nombre</label>
+                <input type="text" class="form-control" id="floatingInput" name="nombre" x-model="nombre" x-bind:class="{'is-invalid': error}">
+                <label for="floatingInput">Nombre</label>
+                <p x-text = "nombre" ></p>
+                <div class="invalid-feedback" x-show="error">
+                    El nombre es obligatorio.
+                </div>
             </div>
             <div class="form-floating my-3">
-                <input type="email" class="form-control" id="floatingPassword" placeholder="Password" name="email">
+                <input type="email" class="form-control" id="floatingPassword" placeholder="Password" name="email" >
                 <label for="floatingPassword">Email</label>
             </div>
             <div class="mb-3">
                     <label for="mensaje" class="form-label">Mensaje</label>
-                    <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required placeholder="Escriba su inconveniente"></textarea>
+                    <textarea class="form-control" id="mensaje" name="mensaje" rows="4" placeholder="Escriba su inconveniente"></textarea>
             </div>
             <div class="d-grid gap-2 col-4 mx-auto my-3" >
                 <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="button" class="btn btn-success" @click="if(validar())" >Enviar front</button>
                 <button type="reset" class="btn btn-danger mt-2" >Cancelar</button>
+                <button @click="alert(nombre)">Mostrar Nombre</button>
             </div>
         </form>
     </div>

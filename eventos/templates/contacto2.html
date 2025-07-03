@@ -1,0 +1,82 @@
+{% extends "layout/base.html" %}
+{% block content %} 
+
+{% include "components/_alert.html" %}
+
+<div class=" card container mx-auto my-5 shadow-lg">
+    <div class="card-body" 
+    x-data="formularioContacto()" 
+    x-init="$nextTick(() => $refs.Nombre.focus())"
+    >
+        <div class="text-center ">
+            <h3 >Formulario contacto 2</h3>
+        </div>
+        <form method="post" action="{% url 'contacto' %}" @submit.prevent="!validar() || $el.submit()">
+            {% csrf_token %}
+
+            <div class="form-floating my-3">
+                <input type="text" class="form-control is-valid " id="floatingInput" name="nombre" placeholder="Nombre" x-ref="Nombre" x-model="nombre" x-bind:class="{'is-invalid': errorN, 'is-valid': !errorN && nombre.trim() !== ''}">
+                <label for="floatingInput">
+                    Nombre
+                </label>
+                <div class="invalid-feedback" x-show="errorN">
+                    El nombre es obligatorio.
+                </div>
+            </div>
+
+            <div class="form-floating my-3">
+                <input type="text" class="form-control" id="floatingPassword" placeholder="Email" name="correo" x-model="correo" x-bind:class="{'is-invalid': errorC, 'is-valid': !errorC && correo.trim() !== ''}">
+                <label for="floatingPassword">
+                    Email
+                </label>
+                <div class="invalid-feedback" x-show="errorC">
+                    El correo es obligatorio.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                    <label for="mensaje" class="form-label">
+                        Mensaje
+                    </label>
+                    <textarea class="form-control" name="mensaje" rows="4" placeholder="Escriba su inconveniente" x-model="mensaje" x-bind:class="{'is-invalid': errorM, 'is-valid': !errorM && mensaje.trim() !== ''}" ></textarea>
+                    <div class="invalid-feedback" x-show="errorM">
+                        El mensaje es obligatorio.
+                    </div>
+            </div>
+
+            <div class="d-grid gap-2 col-4 mx-auto my-3" >
+                <button type="submit" class="btn btn-primary"> 
+                    Enviar
+                </button>
+                <button type="reset" class="btn btn-danger mt-2"> 
+                    Cancelar
+                </button>
+                <!-- <button @click="alert(nombre)">Mostrar Nombre</button> -->
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function formularioContacto() {
+        return {
+            nombre: '',
+            correo: '',
+            mensaje: '',
+            errorN: false,
+            errorM: false,
+            errorC: false,
+
+            validar() {
+                
+                this.errorN = this.nombre.trim() === '';
+                this.errorM = this.mensaje.trim() === '';
+                this.errorC = this.correo.trim() === '';
+                return !(this.errorN || this.errorC || this.errorM);
+            }
+        };
+    }
+</script>
+{% endblock %}
