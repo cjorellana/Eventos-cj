@@ -7,8 +7,8 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-def home(request):
 
+def home(request):
     # listado = evento.objects.all().order_by('fecha_Inicio') 
     # listado_eventos = evento.objects.all().filter(activo=True).order_by('fecha_Inicio')
     listado_eventos = evento.objects.all()
@@ -163,7 +163,6 @@ def api(request):
 
 
 def listado2(request):
-
     return render(request, 'listado2.html')
 
 def pizza(request):
