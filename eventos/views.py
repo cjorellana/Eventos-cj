@@ -3,6 +3,7 @@ from .forms import contactoForm
 from .models import evento, contacto
 from django.contrib import messages
 from datetime import date
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -139,3 +140,28 @@ def nuevo(request):
         except Exception as e:
             messages.error(request, f'Error al crear el evento: {e}')
     return render(request, 'nuevo.html')
+
+def listado(request):
+
+    listado_eventos = evento.objects.all().order_by('fecha_Inicio')
+
+    data = {
+        
+        'title': 'Listado de Eventos',
+        'listado': listado_eventos,
+    }
+
+    return render(request, 'listado.html', data)
+
+def api(request):
+
+    eventos = evento.objects.all()
+    # listado_eventos = list(eventos.values('id', 'nombre', 'precio', 'fecha_Inicio', 'fecha_fin', 'activo', 'diploma'))
+
+    return JsonResponse(list(eventos.values()), safe=False)  
+    # return JsonResponse({'eventos' : listado_eventos }, safe=False)  
+
+
+def listado2(request):
+
+    return render(request, 'listado2.html')

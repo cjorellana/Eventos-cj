@@ -1,0 +1,44 @@
+{% extends "layout/base.html" %}
+{% block content %} 
+
+<div class="container my-5 text-center text-primary">
+    <h1>
+        {{ title }}
+    </h1>
+
+</div>
+<div class="container text-center ">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Inicio de asignacion</th>
+                <th scope="col">Fin de asignación</th>
+                <th scope="col">Fecha inicio</th>
+                <th scope="col">Fecha fin</th> 
+                <th scope="col">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in listado %}
+            <tr>
+                <th scope="row">{{evento.id}}</th>
+                <td>{{evento.nombre}}</td>
+                <td>{{evento.fecha_Asig}}</td>
+                <td>{{evento.fecha_fin_asig}}</td>
+                <td>{{evento.fecha_Inicio}}</td>
+                <td>{{evento.fecha_fin}}</td>
+
+                {% if evento.precio <= 1000 %}
+                    <td class="text-danger" >{{evento.precio}}</td>
+                {% else %}
+                    <td class="text-primary">{{evento.precio}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -14,6 +14,9 @@ urlpatterns = [ # URL patterns de la aplicación eventos
     path('contacto2/', views.contacto2, name='contacto2'), 
     path('contacto3/', views.contacto3, name='contacto3'),    
     path('nuevo/', views.nuevo, name='nuevo'),                 
+    path('listado/', views.listado, name='listado'),  # Listado de eventos
+    path('api/eventos', views.api, name='api'),       
+    path('listado2/', views.listado2, name='listado2'),  # Listado de eventos 2
 
 
 
