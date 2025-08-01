@@ -167,3 +167,6 @@ def listado2(request):
 
 def pizza(request):
     return render(request, 'pizza.html')
+
+def listadovue(request):
+    return render(request, 'listavue.html')
