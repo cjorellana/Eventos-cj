@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Async/Await con Alpine.js 🍕</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <div class="text-center" x-data="pizzaHandler()">
+      <h1 class="mb-4">🍕 Async/Await con Alpine.js</h1>
+      <p class="lead">Haz clic para pedir una pizza. ¡Verás cómo espera antes de mostrar el resultado!</p>
+
+      <button class="btn btn-primary btn-lg" @click="pedirPizza" :disabled="esperando">
+      <template x-if="!esperando">
+        <span>🍕 Pedir Pizza</span>
+      </template>
+      <template x-if="esperando">
+        <span>
+          <span class="spinner-border spinner-border-sm me-1"></span> Esperando pizza...
+        </span>
+      </template>
+    </button>
+
+      <div class="mt-4">
+        <pre class="bg-white border rounded p-3 text-start" style="min-height: 180px;" x-text="log"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function pizzaHandler() {
+      return {
+        log: '',
+        esperando: false,
+
+        async pedirPizza() {
+          this.log = "📞 Llamando a la pizzería...\n";
+          this.esperando = true;
+
+          // Aquí usamos await para esperar a que la promesa se resuelva
+          // Mientras pasan esos 3 segundos, si usamos:
+          // El código se detiene justo ahí y espera a que resolve(...) se ejecute antes de continuar.
+          const pizza = await this.esperarPizza();
+
+          this.log += "⏳ Esperando...\n";
+          this.log += `✅ ${pizza}\n`;
+          this.log += "😋 ¡A comer!";
+          this.esperando = false;
+        },
+
+        esperarPizza() {
+          // Simula una llamada a la pizzería que tarda 3 segundos
+          // Crea una promesa, que es una forma de decir: “esto te lo entrego después, cuando esté listo”.
+          return new Promise(resolve => {
+            setTimeout(() => {
+              resolve("Pizza entregada en 3 segundos.");
+            }, 3000);
+          });
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
